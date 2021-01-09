@@ -70,18 +70,18 @@ public class AtomicTest extends Thread{
         //stop and sum
         Boolean finished = false;
         while(!finished) {
+            try {
+                AtomicTest.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             if(t1.stop != null && t2.stop != null && t3.stop != null && t4.stop != null) {
                 Long sum1 = (t1.stop.getTime() - t1.start.getTime()) + (t2.stop.getTime() - t2.start.getTime());
                 Long sum2 = (t3.stop.getTime() - t3.start.getTime()) + (t4.stop.getTime() - t4.start.getTime());
                 finished = true;
                 System.out.println("sum1 =" + sum1 + "ms sum2 =" + sum2 + "ms");
                 System.out.println("count1 =" + count1 + " count2 =" + count2);
-            }
-            try {
-                AtomicTest.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
     }
