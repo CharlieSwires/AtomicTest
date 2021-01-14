@@ -3,11 +3,11 @@ package com.charlie;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AtomicTest extends Thread{
+public class AtomicTest{
 
     private volatile Integer count1 = 0;
     private AtomicInteger count2 = new AtomicInteger(0);
-    
+
     private void method1() {
         for (int i=0; i<1000; i++) {
             int a = i;
@@ -22,13 +22,12 @@ public class AtomicTest extends Thread{
         }
         count2.getAndIncrement();
     }
-    
+
     public class Thread1 extends Thread{
         public Date start = null;
         public Date stop = null;
         @Override
-        public
-        void run() {
+        public void run() {
             start = new Date();
             for(int i=0;i<1000000;i++) {
                 method1();
@@ -40,8 +39,7 @@ public class AtomicTest extends Thread{
         public Date start = null;
         public Date stop = null;
         @Override
-        public
-        void run() {
+        public void run() {
             start = new Date();
             for(int i=0;i<1000000;i++) {
                 method2();
@@ -61,17 +59,11 @@ public class AtomicTest extends Thread{
         t2 = master.new Thread1();
         t3 = master.new Thread3();
         t4 = master.new Thread3();
-        master.start();
         t1.start();t2.start();t3.start();t4.start();
-    }
-    
-    @Override
-    public void run() {
-        //stop and sum
         Boolean finished = false;
         while(!finished) {
             try {
-                AtomicTest.sleep(1000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -81,8 +73,8 @@ public class AtomicTest extends Thread{
                 Long sum2 = (t3.stop.getTime() - t3.start.getTime()) + (t4.stop.getTime() - t4.start.getTime());
                 finished = true;
                 System.out.println("sum1 =" + sum1 + "ms sum2 =" + sum2 + "ms");
-                System.out.println("count1 =" + count1 + " count2 =" + count2);
+                System.out.println("count1 =" + master.count1 + " count2 =" + master.count2);
             }
-        }
+        }    
     }
 }
