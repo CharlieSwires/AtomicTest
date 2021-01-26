@@ -5,15 +5,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AtomicTest{
 
-    private volatile Integer count1 = 0;
+    private volatile int count1 = 0; //Integer is immutable
     private AtomicInteger count2 = new AtomicInteger(0);
 
     private void method1() {
         for (int i=0; i<1000; i++) {
             int a = i;
         }
-        synchronized (count1){
-            count1++;
+        synchronized (master){ //used a different object
+            count1 += 1;
         }
     }    
     private void method2() {
@@ -46,7 +46,7 @@ public class AtomicTest{
             }
             stop = new Date();
         } 
-    }    
+    } 
     static Thread1 t1 = null;
     static Thread1 t2 = null;
     static Thread3 t3 = null;
@@ -54,7 +54,7 @@ public class AtomicTest{
     static AtomicTest master = null;
 
     public static void main(String[] args) {
-        AtomicTest master = new AtomicTest();
+        master = new AtomicTest();
         t1 = master.new Thread1();
         t2 = master.new Thread1();
         t3 = master.new Thread3();
